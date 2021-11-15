@@ -36,7 +36,7 @@ class Turnstile(Producer):
         #
         #
         super().__init__(
-            f"{station_name}", # TODO: Come up with a better topic name
+            "turnsile_topic", # TODO: Come up with a better topic name
             key_schema=Turnstile.key_schema,
             # TODO: 
             value_schema=Turnstile.value_schema,

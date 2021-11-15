@@ -26,15 +26,16 @@ CREATE TABLE turnstile (
     station_id INT,
     station_name VARCHAR,
     line VARCHAR
-    ) WITH (
-    KAFKA_TOPIC="TURNSTILE",
+) WITH (
+    KAFKA_TOPIC='turnsile_topic',
     VALUE_FORMAT='AVRO',
-    KEY= 'station_id'
-);
-
-CREATE TABLE turnstile_summary
-WITH (VALUE_FORMAT='JSON') AS
-    SELECT station_id, station_name, line, COUNT(station_id) AS count FROM turnstile GROUP BY station_id;
+    KEY='station_id');
+ 
+CREATE TABLE turnstile_summary 
+WITH (KAFKA_TOPIC = 'TURNSTILE_SUMMARY', VALUE_FORMAT='JSON') AS 
+    SELECT station_id, COUNT(station_id) AS count 
+    FROM turnstile 
+    GROUP BY station_id;
 """
 
 

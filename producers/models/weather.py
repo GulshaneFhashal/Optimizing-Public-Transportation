@@ -37,7 +37,7 @@ class Weather(Producer):
         #
         #
         super().__init__(
-            "weather", # TODO: Come up with a better topic name
+            f"weather_topic", # TODO: Come up with a better topic name
             key_schema=Weather.key_schema,
             value_schema=Weather.value_schema,
             num_partitions=5,
@@ -84,7 +84,7 @@ class Weather(Producer):
         #
         logger.info("weather kafka proxy integration incomplete - skipping")
         resp = requests.post(
-            f"{Weather.rest_proxy_url}/topics/weather",
+            f"{Weather.rest_proxy_url}/topics/{self.topic_name}",
             
         #    #
         #    #
