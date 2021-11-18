@@ -47,14 +47,14 @@ class KafkaConsumer:
             self.consumer = AvroConsumer({
                 'bootstrap.servers': "PLAINTEXT://localhost:9092",
                 'group.id' : f"self.topic_name_pattern",
-                'schema.registry.url': self.broker_properties["SCHEMA_REGISTRY_URL"],
-                'auto.offset.reset': 'earliest'
+                'schema.registry.url': "http://localhost:8081",
+                "auto.offset.reset": "earliest" if offset_earliest else "latest"
             })
         else:
             self.consumer = Consumer({
-                'bootstrap.servers': self.broker_properties["BROKER_URL"],
+                'bootstrap.servers': "PLAINTEXT://localhost:9092",
                 'group.id' : f"self.topic_name_pattern",
-                'auto.offset.reset': 'earliest'
+                'auto.offset.reset': "earliest"
             })
             #pass
 
@@ -75,6 +75,7 @@ class KafkaConsumer:
         logger.info("on_assign is incomplete - skipping")
         if consumer.offset_earliest:
             for partition in partitions:
+                #if self.offset_earliest:
                 partition.offset=OFFSET_BEGINNING
             #pass
             #
@@ -112,6 +113,7 @@ class KafkaConsumer:
                 logger.info(f"error from consumer {message.error()}")
                 return 0
             else:
+                self.message_handler(message)
                 logger.info(f"consumed message {message.key()}: {message.value()}")
                 return 1
         #logger.info("_consume is incomplete - skipping")

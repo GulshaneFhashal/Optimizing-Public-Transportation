@@ -38,10 +38,10 @@ topic = app.topic("stationsstations",value_type=Station)
 # TODO: Define the output Kafka Topic
 # 
 print(topic)
-out_topic = app.topic("output.station", partitions=1, value_type=TransformedStation)
+out_topic = app.topic("org.chicago.cta.stations.table.v1", partitions=1, value_type=TransformedStation)
 # TODO: Define a Faust Table
 table = app.Table(
-    "output.station",
+    "org.chicago.cta.stations.table.v1",
     default=TransformedStation,
     partitions=5,
     changelog_topic=out_topic,
